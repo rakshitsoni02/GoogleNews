@@ -1,6 +1,7 @@
 package com.rax.googlenews.news.di
 
 import com.rax.googlenews.news.view.NewsActivity
+import com.rax.googlenews.news.view.NewsHeadlinesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -13,7 +14,9 @@ import dagger.android.ContributesAndroidInjector
  */
 @Module(
     includes = [
-        NewsViewModelModule::class
+        NewsViewModelModule::class,
+        NewsRepositoryModule::class,
+        NewsServiceModule::class
     ]
 )
 interface NewsFeatureBindingModule {
@@ -21,3 +24,4 @@ interface NewsFeatureBindingModule {
     @ContributesAndroidInjector
     fun contributeNewsActivity(): NewsActivity
 }
+

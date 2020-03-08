@@ -6,7 +6,9 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-
+/**
+ * Application class of the GoogleNews
+ */
 class App : Application(), HasAndroidInjector {
 
     @Inject
