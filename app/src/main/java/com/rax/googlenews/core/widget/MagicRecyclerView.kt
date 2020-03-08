@@ -104,8 +104,8 @@ class MagicRecyclerView @JvmOverloads constructor(
         progressView?.visible()
     }
 
-    override fun onMeasure(widthSpec: Int, heightSpec: Int) {
-        super.onMeasure(widthSpec, heightSpec)
+//    override fun onMeasure(widthSpec: Int, heightSpec: Int) {
+//        super.onMeasure(widthSpec, heightSpec)
 //        if (layoutManager is GridLayoutManager) {
 //            val manager = layoutManager as GridLayoutManager
 //            if (columnWidth > 0) {
@@ -113,7 +113,7 @@ class MagicRecyclerView @JvmOverloads constructor(
 //                manager.spanCount = spanCount
 //            }
 //        }
-    }
+//    }
 
     fun setSpanConfiguration() {
         if (layoutManager is GridLayoutManager) {

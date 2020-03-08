@@ -9,6 +9,7 @@ import com.rax.googlenews.core.view.activity.BaseActivity
 import com.rax.googlenews.news.viewmodel.NewsViewModel
 
 class NewsActivity : BaseActivity() {
+    private val newsArticleViewModel by lazy { getViewModel<NewsViewModel>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,5 +19,11 @@ class NewsActivity : BaseActivity() {
                 .replace(R.id.container, NewsHeadlinesFragment.newInstance())
                 .commitNow()
         }
+        newsArticleViewModel.openDetailsPage().observe(this, Observer {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, NewsDetailFragment.newInstance())
+                .addToBackStack(NewsHeadlinesFragment::javaClass.name)
+                .commit()
+        })
     }
 }

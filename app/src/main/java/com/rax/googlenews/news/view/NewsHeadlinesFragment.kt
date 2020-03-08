@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import com.rax.googlenews.R
 import com.rax.googlenews.core.utils.getViewModel
 import com.rax.googlenews.core.utils.observeNotNull
@@ -35,14 +34,16 @@ class NewsHeadlinesFragment : Fragment() {
             newsArticleViewModel.loadMore(page = page)
         }, { newsArticleViewModel.checkLastPage() })
         rvNewsContainer.setProgressView(progress_view)
-        val adapter = NewsArticlesAdapter {
-
+        val adapter = NewsArticlesAdapter { newsArticle ->
+            newsArticle.url?.apply {
+             //TODO start detail page
+            }
         }
         rvNewsContainer.adapter = adapter
 
         newsArticleViewModel.getNewsArticles().observeNotNull(viewLifecycleOwner) { state ->
             when (state) {
-                is ViewState.Success -> adapter.addNewsItems(state.data)
+                is ViewState.Success -> adapter.addNewsItems(newsNextPagedData = state.data)
                 is ViewState.Loading -> rvNewsContainer.showLoading()
                 is ViewState.Error -> activity?.toast("Something went wrong ¯\\_(ツ)_/¯ => ${state.message}")
             }

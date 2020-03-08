@@ -63,9 +63,9 @@ class NewsArticlesAdapter(
     override fun getItemCount(): Int = newsHeadLineList.size
 
 
-    fun addNewsItems(list: List<NewsArticle>) {
-        if (list.isEmpty()) return
-        newsHeadLineList.addAll(list)
+    fun addNewsItems(newsNextPagedData: List<NewsArticle>) {
+        if (newsNextPagedData.isEmpty()) return
+        newsHeadLineList.addAll(newsNextPagedData)
         notifyItemInserted(newsHeadLineList.size - 1)
 
     }
