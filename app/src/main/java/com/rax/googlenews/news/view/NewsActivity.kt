@@ -17,13 +17,18 @@ class NewsActivity : BaseActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, NewsHeadlinesFragment.newInstance())
-                .commitNow()
-        }
-        newsArticleViewModel.openDetailsPage().observe(this, Observer {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, NewsDetailFragment.newInstance())
-                .addToBackStack(NewsHeadlinesFragment::javaClass.name)
                 .commit()
+        }
+
+        newsArticleViewModel.openDetailsPage().observe(this, Observer {
+            startDetails()
         })
+    }
+
+    fun startDetails() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, NewsDetailFragment())
+            .addToBackStack(null)
+            .commit()
     }
 }

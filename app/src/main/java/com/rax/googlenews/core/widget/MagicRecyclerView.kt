@@ -14,6 +14,7 @@ import com.rax.googlenews.core.utils.RecyclerViewPager
 import com.rax.googlenews.core.utils.gone
 import com.rax.googlenews.core.utils.visible
 import com.rax.googlenews.news.model.vo.NewsArticle
+import com.rax.googlenews.news.view.NewsHeadlinesFragment
 import kotlin.math.max
 import kotlin.reflect.KFunction
 
@@ -104,23 +105,13 @@ class MagicRecyclerView @JvmOverloads constructor(
         progressView?.visible()
     }
 
-//    override fun onMeasure(widthSpec: Int, heightSpec: Int) {
-//        super.onMeasure(widthSpec, heightSpec)
-//        if (layoutManager is GridLayoutManager) {
-//            val manager = layoutManager as GridLayoutManager
-//            if (columnWidth > 0) {
-//                val spanCount = max(1, measuredWidth / columnWidth)
-//                manager.spanCount = spanCount
-//            }
-//        }
-//    }
-
     fun setSpanConfiguration() {
         if (layoutManager is GridLayoutManager) {
+            (layoutManager as GridLayoutManager).spanCount = NewsHeadlinesFragment.SPAN_COUNT
             (layoutManager as GridLayoutManager).spanSizeLookup = object :
                 GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
-                    return if (((position + 1) % 7) == 1) 2 else 1
+                    return if (((position + 1) % 7) == 1) NewsHeadlinesFragment.SPAN_COUNT else 1
                 }
             }.apply {
                 this.isSpanIndexCacheEnabled = true

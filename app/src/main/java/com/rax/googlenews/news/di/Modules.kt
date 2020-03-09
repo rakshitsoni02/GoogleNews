@@ -25,6 +25,7 @@ interface NewsViewModelModule {
 
     @Binds
     @IntoMap
+    @Singleton
     @ViewModelKey(NewsViewModel::class)
     fun bindNewsArticleViewModel(newsArticleViewModel: NewsViewModel): ViewModel
 }

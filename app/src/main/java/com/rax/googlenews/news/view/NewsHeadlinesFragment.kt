@@ -1,5 +1,6 @@
 package com.rax.googlenews.news.view
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,17 @@ import kotlinx.android.synthetic.main.progress_layout.*
 class NewsHeadlinesFragment : Fragment() {
     private val newsArticleViewModel by lazy { getViewModel<NewsViewModel>() }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val currentOrientation = resources.configuration.orientation
+        SPAN_COUNT = if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            3
+        } else {
+            2
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,14 +48,15 @@ class NewsHeadlinesFragment : Fragment() {
         rvNewsContainer.setProgressView(progress_view)
         val adapter = NewsArticlesAdapter { newsArticle ->
             newsArticle.url?.apply {
-             //TODO start detail page
+                newsArticleViewModel.updateNewsUrl(newsUrl = this)
+//                (activity as NewsActivity).startDetails()
             }
         }
         rvNewsContainer.adapter = adapter
 
         newsArticleViewModel.getNewsArticles().observeNotNull(viewLifecycleOwner) { state ->
             when (state) {
-                is ViewState.Success -> adapter.addNewsItems(newsNextPagedData = state.data)
+                is ViewState.Success -> adapter.submitList(state.data.toList())
                 is ViewState.Loading -> rvNewsContainer.showLoading()
                 is ViewState.Error -> activity?.toast("Something went wrong ¯\\_(ツ)_/¯ => ${state.message}")
             }
@@ -52,5 +65,6 @@ class NewsHeadlinesFragment : Fragment() {
 
     companion object {
         fun newInstance() = NewsHeadlinesFragment()
+        var SPAN_COUNT = 2
     }
 }

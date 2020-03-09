@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.rax.googlenews.R
 import com.rax.googlenews.core.utils.getViewModel
 import com.rax.googlenews.news.viewmodel.NewsViewModel
 import kotlinx.android.synthetic.main.fragment_news_detail.*
+
 
 class NewsDetailFragment : Fragment() {
     private val newsArticleViewModel by lazy { getViewModel<NewsViewModel>() }
@@ -22,13 +24,9 @@ class NewsDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        newsArticleViewModel.getNewsUrl().apply {
-            webView.loadUrl(this)
-        }
+        webView.webViewClient = WebViewClient()
+        webView.loadUrl(newsArticleViewModel.getNewsUrl())
     }
 
-    companion object {
-        fun newInstance() = NewsHeadlinesFragment()
-    }
 
 }

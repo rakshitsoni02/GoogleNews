@@ -1,5 +1,7 @@
 package com.rax.googlenews.news.repo.impl
 
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListUpdateCallback
 import com.rax.googlenews.core.view.ViewState
 import com.rax.googlenews.news.model.service.NewsService
 import com.rax.googlenews.news.model.vo.NewsArticle
@@ -12,16 +14,20 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 
-class NewsRepositoryImpl @Inject constructor(private val newsService: NewsService) :
+class NewsRepositoryImpl @Inject constructor(
+    private val newsService: NewsService
+) :
     NewsRepository {
     private var isLastReached = false
+    private val resultList: MutableList<NewsArticle> = mutableListOf()
 
-    override fun getNewsArticles(page: Long): Flow<ViewState<List<NewsArticle>>> {
+    override fun getNewsArticles(page: Long): Flow<ViewState<MutableList<NewsArticle>>> {
         return flow {
             emit(ViewState.loading())
             val newsSource = newsService.getNewsFromGoogle(page = page)
             isLastReached = newsSource.articles.size < 21
-            emit(ViewState.success(newsSource.articles))
+            resultList.addAll(newsSource.articles)
+            emit(ViewState.success(resultList))
         }.catch {
             emit(ViewState.error(it.message.orEmpty()))
         }.flowOn(Dispatchers.IO)

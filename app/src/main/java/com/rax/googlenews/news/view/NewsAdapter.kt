@@ -2,6 +2,8 @@ package com.rax.googlenews.news.view
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -16,9 +18,9 @@ import kotlinx.android.synthetic.main.layout_news_headline.view.*
  */
 class NewsArticlesAdapter(
     private val listener: (NewsArticle) -> Unit
-) : RecyclerView.Adapter<NewsArticlesAdapter.NewsHolder>() {
+) : ListAdapter<NewsArticle, NewsArticlesAdapter.NewsHolder>(DIFF_CALLBACK) {
 
-    private val newsHeadLineList: MutableList<NewsArticle> = mutableListOf()
+//    private val newsHeadLineList: MutableList<NewsArticle> = mutableListOf()
 
 
     /**
@@ -31,7 +33,7 @@ class NewsArticlesAdapter(
      * Bind the view with the data
      */
     override fun onBindViewHolder(newsHolder: NewsHolder, position: Int) =
-        newsHolder.bind(newsHeadLineList[position], listener)
+        newsHolder.bind(getItem(position), listener)
 
     /**
      * View Holder Pattern
@@ -60,13 +62,13 @@ class NewsArticlesAdapter(
         }
     }
 
-    override fun getItemCount(): Int = newsHeadLineList.size
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<NewsArticle>() {
+            override fun areItemsTheSame(oldItem: NewsArticle, newItem: NewsArticle): Boolean =
+                oldItem.title == newItem.title
 
-
-    fun addNewsItems(newsNextPagedData: List<NewsArticle>) {
-        if (newsNextPagedData.isEmpty()) return
-        newsHeadLineList.addAll(newsNextPagedData)
-        notifyItemInserted(newsHeadLineList.size - 1)
-
+            override fun areContentsTheSame(oldItem: NewsArticle, newItem: NewsArticle): Boolean =
+                oldItem == newItem
+        }
     }
 }

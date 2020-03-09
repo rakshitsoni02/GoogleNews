@@ -14,7 +14,7 @@ interface NewsRepository {
      * fresh news articles from web and save into database
      * if that fails then continues showing cached data.
      */
-    fun getNewsArticles(page: Long): Flow<ViewState<List<NewsArticle>>>
+    fun getNewsArticles(page: Long): Flow<ViewState<MutableList<NewsArticle>>>
 
     fun isLastPage(): Boolean
 
