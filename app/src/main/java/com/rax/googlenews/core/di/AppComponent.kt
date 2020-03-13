@@ -17,7 +17,6 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
 
         // Global
-        NewsServiceModule::class,
         ViewModelFactoryModule::class,
 
         // News feature

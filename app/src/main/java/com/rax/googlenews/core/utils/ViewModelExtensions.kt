@@ -14,8 +14,8 @@ inline fun <reified T : ViewModel> BaseActivity.getViewModel(): T {
 }
 
 /**
- * Synthetic sugaring to get instance of [ViewModel] for [Fragment].
+ * ViewModel is scoped to activity
  */
 inline fun <reified T : ViewModel> Fragment.getViewModel(): T {
-    return ViewModelProvider(this).get(T::class.java)
+    return ViewModelProvider(this, (activity as BaseActivity).viewModelFactory).get(T::class.java)
 }

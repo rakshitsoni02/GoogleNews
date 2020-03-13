@@ -19,7 +19,7 @@ import dagger.android.support.AndroidSupportInjection
 object AppInjector {
 
     /**
-     * Dagger Init magic ✨
+     * Magic of dagger ✨
      */
     fun init(app: App) {
         DaggerAppComponent.factory().create(app).inject(app)
