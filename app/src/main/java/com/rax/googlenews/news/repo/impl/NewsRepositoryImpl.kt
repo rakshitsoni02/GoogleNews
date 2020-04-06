@@ -3,7 +3,9 @@ package com.rax.googlenews.news.repo.impl
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.rax.googlenews.core.view.ViewState
+import com.rax.googlenews.news.model.service.JokeService
 import com.rax.googlenews.news.model.service.NewsService
+import com.rax.googlenews.news.model.service.impl.JokeDto
 import com.rax.googlenews.news.model.vo.NewsArticle
 import com.rax.googlenews.news.repo.NewsRepository
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +17,8 @@ import javax.inject.Inject
 
 
 class NewsRepositoryImpl @Inject constructor(
-    private val newsService: NewsService
+    private val newsService: NewsService,
+    private val jokeService: JokeService
 ) :
     NewsRepository {
     private var isLastReached = false
@@ -33,7 +36,18 @@ class NewsRepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+
     override fun isLastPage(): Boolean {
         return isLastReached
+    }
+
+    override fun getRandomJoke(): Flow<ViewState<JokeDto.JokeResult>> {
+        return flow {
+            emit(ViewState.loading())
+            val result = jokeService.getRandomJoke()
+            emit(ViewState.success(result))
+        }.catch { throwable ->
+            emit(ViewState.error(throwable.message.orEmpty()))
+        }.flowOn(Dispatchers.IO)
     }
 }

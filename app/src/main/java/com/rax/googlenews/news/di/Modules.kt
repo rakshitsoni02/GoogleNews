@@ -2,6 +2,7 @@ package com.rax.googlenews.news.di
 
 import androidx.lifecycle.ViewModel
 import com.rax.googlenews.core.di.base.ViewModelKey
+import com.rax.googlenews.news.model.service.JokeService
 import com.rax.googlenews.news.model.service.NewsService
 import com.rax.googlenews.news.repo.NewsRepository
 import com.rax.googlenews.news.repo.impl.NewsRepositoryImpl
@@ -34,6 +35,7 @@ interface NewsViewModelModule {
 object NewsServiceModule {
 
     private const val BASE_URL = "https://newsapi.org/v2/"
+    private const val JOKE_SERVICE_BASE_URL = "https://api.chucknorris.io/"
 
     @Singleton
     @Provides
@@ -43,5 +45,15 @@ object NewsServiceModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NewsService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideJokeService(): JokeService {
+        return Retrofit.Builder()
+            .baseUrl(JOKE_SERVICE_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(JokeService::class.java)
     }
 }

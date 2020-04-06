@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.rax.googlenews.R
+import com.rax.googlenews.core.utils.formatPublishedDate
 import com.rax.googlenews.core.utils.inflate
 import com.rax.googlenews.news.model.vo.NewsArticle
 import kotlinx.android.synthetic.main.layout_news_headline.view.*
@@ -45,10 +46,11 @@ class NewsArticlesAdapter(
          */
         fun bind(newsArticle: NewsArticle, listener: (NewsArticle) -> Unit) = with(itemView) {
             newsTitle.text = newsArticle.title
+//            2020-04-02T08:27:39Z
             newsAuthor.text = newsArticle.author
 //            //TODO: need to format date
             //tvListItemDateTime.text = getFormattedDate(newsArticle.publishedAt)
-            newsPublishedAt.text = newsArticle.publishedAt
+            newsPublishedAt.text = newsArticle.publishedAt?.formatPublishedDate()
             Glide.with(context)
                 .load(newsArticle.urlToImage)
                 .apply(

@@ -12,6 +12,7 @@ class NewsViewModel @Inject constructor(
 ) : ViewModel() {
     private val pageNo: MutableLiveData<Long> = MutableLiveData()
     private var newsUrlForDetailsPage = SingleLiveEvent<String>()
+    private val randomJoke = newsRepository.getRandomJoke().asLiveData()
 
     init {
         loadMore(page = 1)
@@ -30,6 +31,7 @@ class NewsViewModel @Inject constructor(
         pageNo.value = page
     }
 
+
     fun checkLastPage(): Boolean = newsRepository.isLastPage()
 
     fun updateNewsUrl(newsUrl: String) {
@@ -39,4 +41,6 @@ class NewsViewModel @Inject constructor(
     fun openDetailsPage(): MutableLiveData<String> = newsUrlForDetailsPage
 
     fun getNewsUrl(): String? = newsUrlForDetailsPage.value
+
+    fun getRandomJoke() = randomJoke
 }

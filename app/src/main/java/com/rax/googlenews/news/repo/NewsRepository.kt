@@ -1,6 +1,7 @@
 package com.rax.googlenews.news.repo
 
 import com.rax.googlenews.core.view.ViewState
+import com.rax.googlenews.news.model.service.impl.JokeDto
 import com.rax.googlenews.news.model.vo.NewsArticle
 import kotlinx.coroutines.flow.Flow
 
@@ -17,5 +18,7 @@ interface NewsRepository {
     fun getNewsArticles(page: Long): Flow<ViewState<MutableList<NewsArticle>>>
 
     fun isLastPage(): Boolean
+
+    fun getRandomJoke(): Flow<ViewState<JokeDto.JokeResult>>
 
 }
